@@ -26,7 +26,7 @@ Mit diesem Programm ist es einfach seine Buchungen und sein Saldo im Blick zu ha
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
 
-Mit diesen Anweisungen können Sie eine Kopie des Projekts auf Ihrem lokalen Rechner für Entwicklungs- und Testzwecke einrichten und ausführen. Unter [deployment](#deployment) finden Sie Hinweise, wie Sie das Projekt auf einem Live-System einsetzen können.
+Mit diesen Anweisungen können Sie eine Kopie des Projekts auf Ihrem lokalen Rechner für Entwicklungs- und Testzwecke einrichten und ausführen.
 
 ### Prerequisites
 
@@ -51,10 +51,6 @@ python haushaltsbuch.py
 ```
 
 Diese Eingabe bestätigt man nun mit der Entertaste.
-
-## 🚀 Deployment <a name = "deployment"></a>
-
-Add additional notes about how to deploy this on a live system.
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
