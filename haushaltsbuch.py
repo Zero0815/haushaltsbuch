@@ -1,5 +1,6 @@
 # Haushaltsbuchsoftware
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 # Import der verwendeten Libarys.
 import pandas as pd # Zum erstellen der Dataframes und dem einfacheren einlesen der CSV
@@ -15,8 +16,14 @@ out_path = os.path.join(os.path.dirname(__file__), 'output.csv')
 # Datum vom jeweiligen Tag wird in der Variable gespeichert, damit es hinterher in der Output.csv mit eingetragen werden kann.
 current_date = datetime.now()
 
+# Kategorie Textdokumenten Pfad / Main Verzeichnis
+category_path = os.path.join(os.path.dirname(__file__), 'kategorien.txt')
+
 # Datumsformatierung
 corrected_date = current_date.strftime('%d.%m.%Y')
+
+# Kategorien Liste
+category_list = set()
 
 # Klasse für Saldo
 class Saldo:
@@ -36,6 +43,7 @@ class Saldo:
             self.start = float(df['Saldo'].iloc[-1])
             print(f'Dein Saldo betraegt: {self.start:.2f} €'.replace('.', ','))
             self.current = self.start
+            time.sleep(5)
         
         # Ist die Output.csv Datei nicht vorhanden, wird diese erstellt und mit den Werten gespeichert.
         if not os.path.isfile(out_path):
@@ -45,6 +53,7 @@ class Saldo:
                 file.write(f'Art,Betrag,Datum,Saldo\nStartbetrag,{self.start:.2f},{corrected_date},{self.start}')
             print(f'Dein Saldo betraegt: {self.start:.2f} €'.replace('.', ','))
             self.current = self.start
+            time.sleep(5)
 
     # Funktion zum eintragen einer Einnahme.
     def einnahme(self, betrag):
@@ -147,19 +156,21 @@ s.anfangsbetrag()
 while True:
 
             # Erklärung der Auswahlmoeglichkeiten
-            print('1. "Einnahme" um eine Einnahme einzutragen\n2. "Ausgabe" um eine Ausgabe einzutragen\n'
+            print('Um eine Aktion auszuwählen, gebe die entsprechende Ziffer, oder das entsprechende Wort (innerhalb der Anführungsstriche) ein.'
+                  '\n1. "Einnahme" um eine Einnahme einzutragen\n2. "Ausgabe" um eine Ausgabe einzutragen\n'
                   '3. "Liste" um alle Saldos und Buchungen anzuzeigen\n4. "Grafik" um eine Grafik der Saldoänderungen anzuzeigen\n'
                   '5. "Vorhersage" um eine Grafik der erwarteten Saldoänderung anzuzeigen\n6. "Letzte Buchung" um die letzte Buchung anzuzeigen'
+                  #'\n7. "Kategorien" um Buchungskategorien hinzuzufügen'
                   '\nUm das Programm zu beenden gebe Quit ein.')
             
             # Auswahl wird in einer Vairable zwischengespeichert.
             wahl = input('Was möchtest du tun? ')
             
             # Pruefen ob die Auswahl einer der hier gennanten Moeglichkeiten ist, Auswahl wird automatisch in Kleinbuchstaben konvertiert um alle Moeglichkeiten der User Eingabe zu erkennen.
-            if wahl.lower() == 'einnahme':
+            if wahl.lower() == 'einnahme' or wahl.lower() == '1':
                 betrag = float(input('Gebe den Betrag der Einnahme ein: ').replace(',', '.'))
                 s.einnahme(betrag)
-            elif wahl.lower() == 'ausgabe':
+            elif wahl.lower() == 'ausgabe' or wahl.lower() == '2':
                 betrag2 = float(input('Gebe den Betrag der Ausgabe ein: ').replace(',', '.'))
                 s.ausgabe(betrag2)
             elif wahl.lower() == 'quit':
@@ -170,18 +181,21 @@ while True:
                 exit('Beendet durch Nutzer.')
             
             # Ausgabe aller Saldi
-            elif wahl.lower() == 'liste':
+            elif wahl.lower() == 'liste' or wahl.lower() == '3':
                 s.liste()
                 
-            elif wahl.lower() == 'grafik':
+            elif wahl.lower() == 'grafik' or wahl.lower() == '4':
                 s.grafik()
                 
-            elif wahl.lower() == 'vorhersage':
+            elif wahl.lower() == 'vorhersage' or wahl.lower() == '5':
                 s.vorhersage()
                 
-            elif wahl.lower() == 'letzte buchung':
+            elif wahl.lower() == 'letzte buchung' or wahl.lower() == '6':
                 s.letzte_buchung()
             
             # Sollte keine der Usereingaben erkannt werden, wird die Meldung ausgegeben.
             else:
                 print('Fehlerhafte Eingabe, bitte wiederholen!')
+                time.sleep(5)
+                
+                
