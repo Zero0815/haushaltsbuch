@@ -99,13 +99,40 @@ class Saldo:
     # Funktion zum eintragen einer Ausgabe.    
     def ausgabe(self, betrag2):
         
+        if os.path.isfile(category_path):
+            with open(category_path) as file:
+                for line in file:
+                    stripped = line.strip()
+                    category_list.add(stripped)
+        
         # Öffnet die Output.csv im Erweiterungsmodus und trägt die Einnahme ein, sowie den neu errechneten Saldo.
         with open(out_path, 'a') as file:
             ausgabe_betrag = self.current - betrag2
             
             # Abfrage ob ein Negatives Saldo erreicht werden wuerde.
             if ausgabe_betrag > 0:
-                file.write(f'\nAusgabe,{betrag2:.2f},{corrected_date},{ausgabe_betrag:.2f}')
+                if len(category_list) == 0:
+                    file.write(f'\nAusgabe,{betrag2:.2f},{corrected_date},{ausgabe_betrag:.2f}')
+                else:
+                    corrected_list = []
+                    for element in sorted(category_list):
+                        if element in corrected_list:
+                            pass
+                        corrected_list.append(element)
+                    ausgabe_liste = []
+                    auswahl_ziffer = [(i + 1) for i in range(len(corrected_list))]
+                    index_nummer = 0
+                    for element in corrected_list:
+                        if element in ausgabe_liste:
+                            pass
+                        ausgabe_liste.append(f'{auswahl_ziffer[index_nummer]}: {element}')
+                        index_nummer += 1
+                    print(ausgabe_liste)
+                    time.sleep(3)
+                    kategorie_wahl = input(f'Bitte wähle die Kategorie aus (1 - {len(category_list)}): ')
+                    auswahl = int(kategorie_wahl) - 1
+                    kategorie = corrected_list[auswahl]
+                    file.write(f'\nAusgabe,{betrag2:.2f},{corrected_date},{ausgabe_betrag:.2f},{kategorie}')
             else:
                 print(f'Dein Restguthaben für diesen Monat Beträgt: {self.current:.2f}\nDu hast versucht {betrag2:.2f} auszugeben, was ein Negatives Saldo zur Folge hätte.'.replace('.', ',', 2))
         df = pd.read_csv(out_path, error_bad_lines=False)
